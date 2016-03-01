@@ -2,7 +2,6 @@ package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,15 +31,16 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2015, Month.JUNE, 30,12,0), "Обед", 500),
                 new UserMeal(LocalDateTime.of(2015, Month.JULY, 30,9,0), "Обед", 3000)
         );
-       List<UserMealWithExceed> ll = getFilteredMealsWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
-        for(UserMealWithExceed us : ll){
-            System.out.println(us);
-        }
-        System.out.println();
-        ll = getFilteredMealWithStreams(mealList,LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
-        for(UserMealWithExceed us : ll){
-            System.out.println(us);
-        }
+        List<UserMeal> test = filledListFactory();
+        long t1 = System.nanoTime();
+       List<UserMealWithExceed> ll = getFilteredMealsWithExceeded(test, LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
+        System.out.println(System.nanoTime()-t1);
+        t1 = System.nanoTime();
+        ll = getFilteredMealWithStreams(test,LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
+        System.out.println(System.nanoTime()-t1);
+        t1 = System.nanoTime();
+        ll = getFilteredMealWithStreams2(test,LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
+        System.out.println(System.nanoTime()-t1);
 //        .toLocalDate();
 //        .toLocalTime();
     }
@@ -81,6 +81,29 @@ public class UserMealsUtil {
             return convertor(p,exceed);
         }).collect(Collectors.toCollection(()->list));
 
+        return list;
+    }
+
+    public static List<UserMealWithExceed> getFilteredMealWithStreams2(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay){
+        ArrayList<UserMealWithExceed> list  = new ArrayList<>();
+
+       Map<LocalDate,List<UserMeal>> map =  mealList.stream().collect(Collectors.groupingBy(p -> p.getDateTime().toLocalDate()));
+
+        map.forEach((v,h) -> {
+            boolean exceed  =  h.stream().collect(Collectors.summingInt(UserMeal :: getCalories)) > caloriesPerDay;
+            h.stream().filter(p -> TimeUtil.isBetween(p.getDateTime().toLocalTime(),startTime,endTime))
+                      .map(p -> convertor(p,exceed)).collect(Collectors.toCollection(() -> list));
+        });
+        return list;
+    }
+
+    public static List<UserMeal> filledListFactory(){
+        List<UserMeal> list = new ArrayList<>();
+        LocalDateTime ld = LocalDateTime.of(2013,Month.APRIL,2,8,0);
+        for (int i = 0; i <5000 ; i++) {
+            list.add(new UserMeal(ld,"ddd",(int)(Math.random()*2000)));
+            ld = ld.plusHours(4);
+        }
         return list;
     }
 }
