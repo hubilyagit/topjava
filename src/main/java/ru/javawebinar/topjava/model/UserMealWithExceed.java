@@ -34,7 +34,7 @@ public class UserMealWithExceed {
         return calories;
     }
 
-    public boolean isExceed() {
+    public boolean getExceed() {
         return exceed;
     }
 
