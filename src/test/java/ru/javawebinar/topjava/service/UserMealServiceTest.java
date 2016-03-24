@@ -48,15 +48,14 @@ public class UserMealServiceTest {
 
     }
 
-    @Test(expected = AssertionError.class)
+    @Test()
     public void delete() throws Exception {
-        service.delete(100003,100000);
-        MATCHER.assertCollectionEquals(Arrays.asList(USER_MEAL_2,ADMIN_MEAL_1),service.getAll(100001));
+        service.delete(100002,100000);
+        MATCHER.assertCollectionEquals(Arrays.asList(USER_MEAL_2),service.getAll(100000));
     }
 
     @Test
     public void getBetweenDates() throws Exception {
-
     }
 
     @Test
