@@ -20,7 +20,13 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
+@NamedQueries({@NamedQuery(name = User.ByEmail, query = "Select u from User u LEFT JOIN FETCH u.roles WHERE u.email =:email"),
+                @NamedQuery(name = User.ALL, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles ORDER BY u.name")})
 public class User extends NamedEntity {
+
+    public static final String ByEmail = "getByEmail";
+    public static final String ALL = "getAllSorted";
+
 
     @Column(name = "email", nullable = false, unique = true)
     @Email

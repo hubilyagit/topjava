@@ -5,9 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -58,11 +56,11 @@ public class JpaUserRepositoryImpl implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-        return null;
+         return em.createNamedQuery(User.ByEmail, User.class).setParameter("email",email).getSingleResult();
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return em.createNamedQuery(User.ALL,User.class).getResultList();
     }
 }
