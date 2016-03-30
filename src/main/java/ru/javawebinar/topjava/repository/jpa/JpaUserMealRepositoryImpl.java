@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.repository.jpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
@@ -22,13 +24,26 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
     public EntityManager entityManager;
 
     @Override
+    @Transactional
     public UserMeal save(UserMeal userMeal, int userId) {
-        return null;
+        User ref = entityManager.getReference(User.class, userId);
+        userMeal.setUser(ref);
+        if(userMeal.isNew()){
+            entityManager.persist(userMeal);
+        }
+        else {
+            entityManager.merge(userMeal);
+        }
+        return userMeal;
     }
 
     @Override
+    @Transactional
     public boolean delete(int id, int userId) {
-        return false;
+       return entityManager.createQuery("DELETE FROM UserMeal um WHERE um.id =:id and um.user.id =:userId")
+                .setParameter("id",id)
+                .setParameter("userId",userId)
+                .executeUpdate()!=0;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","date_time"}, name = "meals_unique_user_datetime_idx")})
+@Table(name = "MEALS", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","date_time"}, name = "meals_unique_user_datetime_idx")})
 public class UserMeal extends BaseEntity {
 
     @Column( name = "DATE_TIME" ,nullable = false)
