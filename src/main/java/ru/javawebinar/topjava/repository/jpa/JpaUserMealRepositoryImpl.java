@@ -22,7 +22,7 @@ import java.util.List;
 @Repository
 public class JpaUserMealRepositoryImpl implements UserMealRepository {
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     public EntityManager entityManager;
 
     @Override
@@ -55,6 +55,7 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
+    @Transactional
     public UserMeal get(int id, int userId) {
         UserMeal um = entityManager.find(UserMeal.class,id);
         ExceptionUtil.check(um.getUser().getId()==userId,"");
