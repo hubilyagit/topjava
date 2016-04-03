@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,17 @@ import static ru.javawebinar.topjava.UserTestData.*;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles(Profiles.POSTGRES)
+@ActiveProfiles(Profiles.HSQLDB)
 public class UserServiceTest {
 
     @Autowired
     protected UserService service;
 
+    @Before
+    public void setUp() throws Exception {
+        service.evictCache();
+    }
+        
     @Test
     public void testSave() throws Exception {
         TestUser tu = new TestUser(null, "New", "new@gmail.com", "newPass", 1555, false, Collections.singleton(Role.ROLE_USER));
