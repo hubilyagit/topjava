@@ -13,6 +13,8 @@ import java.util.Collection;
  * GKislin
  * 06.03.2015.
  */
+
+
 @Service
 public class UserMealServiceImpl implements UserMealService {
 
@@ -47,5 +49,16 @@ public class UserMealServiceImpl implements UserMealService {
     @Override
     public UserMeal save(UserMeal meal, int userId) {
         return repository.save(meal, userId);
+    }
+
+//    @Autowired
+//    private UserRepository userRepository;
+
+    //    @Transactional
+    public UserMeal getWithUser(Integer id, Integer userId) {
+//        UserMeal meal = get(id, userId);
+//        meal.setUser(userRepository.get(userId));
+//        return meal;
+        return ExceptionUtil.check(repository.getWithUser(id, userId), id);
     }
 }
