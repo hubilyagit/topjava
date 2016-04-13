@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.Profiles.ACTIVE_DB;
 import static ru.javawebinar.topjava.Profiles.HSQLDB;
+import static ru.javawebinar.topjava.Profiles.POSTGRES;
 
 /**
  * User: gkislin
