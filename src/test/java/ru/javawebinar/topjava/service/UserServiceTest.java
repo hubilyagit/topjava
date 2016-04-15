@@ -29,19 +29,19 @@ import static ru.javawebinar.topjava.UserTestData.*;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles({Profiles.DATAJPA,Profiles.HSQLDB})
+@ActiveProfiles({Profiles.JDBC,Profiles.HSQLDB})
 public class UserServiceTest {
 
     @Autowired
     protected UserService service;
 
-    @Autowired
-    protected JpaUtil jpaUtil;
+//    @Autowired
+//    protected JpaUtil jpaUtil;
 
     @Before
     public void setUp() throws Exception {
         service.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
+//        jpaUtil.clear2ndLevelHibernateCache();
     }
         
     @Test
