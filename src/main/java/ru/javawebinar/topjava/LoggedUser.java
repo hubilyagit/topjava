@@ -12,6 +12,8 @@ public class LoggedUser {
     private static int id = BaseEntity.START_SEQ;
 
     private LoggedUser() {
+
+
     }
 
     public static int id() {
