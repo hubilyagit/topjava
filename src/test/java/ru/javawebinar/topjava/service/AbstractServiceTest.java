@@ -28,7 +28,7 @@ import static ru.javawebinar.topjava.Profiles.POSTGRES;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles(HSQLDB)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"), executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 abstract public class AbstractServiceTest {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
